@@ -9,7 +9,7 @@ const Login = () => {
       <br />
       <br />
       <div className="my-5 w-25 bg-white rounded-3 mx-auto p-3">
-        <h3 className="text-center">Đăng Nhập</h3>
+        <h3 className="text-center title">Đăng Nhập</h3>
         <p className="text-center">Đăng nhập tài khoản của bạn để tiếp tục</p>
         <form action="">
           <CustomInput type="text" label="Email" id="email" />

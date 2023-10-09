@@ -114,45 +114,45 @@ const Dashboard = () => {
   };
   return (
     <div>
-      <h3 className="mb-4">Bảng điều khiển</h3>
+      <h3 className="mb-4 title">Bảng điều khiển</h3>
       <div className="d-flex justify-content-between align-items-center gap-3">
         <div className="d-flex justify-content-between align-items-end flex-grow-1 bg-white p-3 rounded-3">
           <div>
-            <p className="">Tổng cộng</p>{" "}
-            <h4 className="mb-0">100000000 VND</h4>
+            <p className="">Tổng cộng</p>
+            <h4 className="mb-0 sub-title">100000000 VND</h4>
           </div>
           <div className="d-flex flex-column align-items-end">
             <h6>
               <BsArrowDownRight />
               25%
             </h6>
-            <p className="mb-0">So với tháng trước</p>
+            <p className="mb-0 desc">So với tháng trước</p>
           </div>
         </div>
         <div className="d-flex justify-content-between align-items-end flex-grow-1 bg-white p-3 rounded-3">
           <div>
-            <p className="">Tổng cộng</p>{" "}
-            <h4 className="mb-0">100000000 VND</h4>
+            <p className="">Tổng cộng</p>
+            <h4 className="mb-0 sub-title">100000000 VND</h4>
           </div>
           <div className="d-flex flex-column align-items-end">
             <h6 className="red">
               <BsArrowDownRight />
               25%
             </h6>
-            <p className="mb-0">So với tháng trước</p>
+            <p className="mb-0 desc">So với tháng trước</p>
           </div>
         </div>
         <div className="d-flex justify-content-between align-items-end flex-grow-1 bg-white p-3 rounded-3">
           <div>
-            <p className="">Tổng cộng</p>{" "}
-            <h4 className="mb-0">100000000 VND</h4>
+            <p className="">Tổng cộng</p>
+            <h4 className="mb-0 sub-title">100000000 VND</h4>
           </div>
           <div className="d-flex flex-column align-items-end">
             <h6 className="green">
               <BsArrowDownRight />
               25%
             </h6>
-            <p className="mb-0">So với tháng trước</p>
+            <p className="mb-0 desc">So với tháng trước</p>
           </div>
         </div>
       </div>
@@ -162,7 +162,7 @@ const Dashboard = () => {
           <Column {...config} />
         </div>
       </div>
-      <div claName="mt-4">
+      <div className="mt-4">
         <h3 className="mb-4">Các đơn hàng gần đây</h3>
         <div>
           <Table columns={columns} dataSource={data1} />

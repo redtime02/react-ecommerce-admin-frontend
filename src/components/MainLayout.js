@@ -14,7 +14,7 @@ import {
   AiOutlinePicLeft,
   AiOutlinePicRight,
 } from "react-icons/ai";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { BiCategoryAlt } from "react-icons/bi";
 import { FaClipboardList, FaBloggerB } from "react-icons/fa";
 import { ImBlog } from "react-icons/im";
@@ -114,7 +114,7 @@ const MainLayout = () => {
               label: "Đơn hàng",
             },
             {
-              key: "blog",
+              key: "blogs",
               icon: <FaBloggerB className="fs-4" />,
               label: "Tin tức",
               children: [
@@ -167,7 +167,7 @@ const MainLayout = () => {
                 3
               </span>
             </div>
-            <div className="d-flex gap-3 align-items-center">
+            <div className="d-flex gap-3 align-items-center dropdown">
               <div>
                 <img
                   width={32}
@@ -176,9 +176,34 @@ const MainLayout = () => {
                   alt=""
                 />
               </div>
-              <div>
+              <div
+                role="button"
+                id="dropdownMenuLink"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
                 <h5 className="mb-0">Admin</h5>
                 <p className="mb-0">admin@gmail.com</p>
+              </div>
+              <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li>
+                  <Link
+                    className="dropdown-item py-1 mb-1"
+                    style={{ height: "auto", lineHeight: "20px" }}
+                    to="#"
+                  >
+                    Hồ sơ
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="dropdown-item py-1 mb-1"
+                    style={{ height: "auto", lineHeight: "20px" }}
+                    to="#"
+                  >
+                    Đăng xuất
+                  </Link>
+                </li>
               </div>
             </div>
           </div>

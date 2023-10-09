@@ -33,7 +33,7 @@ for (let i = 0; i < 46; i++) {
 const Customer = () => {
   return (
     <div>
-      <h3 className="mb-4">Customers</h3>
+      <h3 className="mb-4 title">Danh sách tài khoản</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
