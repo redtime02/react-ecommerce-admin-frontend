@@ -14,11 +14,16 @@ import {
   AiOutlinePicLeft,
   AiOutlinePicRight,
 } from "react-icons/ai";
+import { RiCouponLine } from "react-icons/ri";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Link, Outlet } from "react-router-dom";
-import { BiCategoryAlt } from "react-icons/bi";
+import { BiCategoryAlt, BiNews } from "react-icons/bi";
 import { FaClipboardList, FaBloggerB } from "react-icons/fa";
 import { ImBlog } from "react-icons/im";
 import { IoIosNotifications } from "react-icons/io";
+import { GoCodeReview } from "react-icons/go";
+import { GrCatalogOption } from "react-icons/gr";
 import { SiBrandfolder } from "react-icons/si";
 import { Layout, Menu, Button, theme } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -63,7 +68,7 @@ const MainLayout = () => {
             },
             {
               key: "catalog",
-              icon: <AiOutlineShoppingCart className="fs-4" />,
+              icon: <GrCatalogOption className="fs-4" />,
               label: "Mục lục",
               children: [
                 {
@@ -115,7 +120,7 @@ const MainLayout = () => {
             },
             {
               key: "blogs",
-              icon: <FaBloggerB className="fs-4" />,
+              icon: <BiNews className="fs-4" />,
               label: "Tin tức",
               children: [
                 {
@@ -141,8 +146,25 @@ const MainLayout = () => {
               ],
             },
             {
+              key: "marketing",
+              icon: <RiCouponLine className="fs-4" />,
+              label: "Mã giảm giá",
+              children: [
+                {
+                  key: "coupon",
+                  icon: <ImBlog className="fs-4" />,
+                  label: "Thêm mã giảm giá",
+                },
+                {
+                  key: "coupon-list",
+                  icon: <RiCouponLine className="fs-4" />,
+                  label: "Danh sách mã giảm giá",
+                },
+              ],
+            },
+            {
               key: "enquiries",
-              icon: <FaClipboardList className="fs-4" />,
+              icon: <GoCodeReview className="fs-4" />,
               label: "Phản hồi",
             },
           ]}
@@ -163,7 +185,7 @@ const MainLayout = () => {
           <div className="d-flex gap-4 align-items-center">
             <div className="position-relative">
               <IoIosNotifications className="fs-4" />
-              <span className="badge bg-warning rounded-circle p-1 position-absolute">
+              <span className="badge bg-danger rounded-circle p-1 position-absolute">
                 3
               </span>
             </div>
@@ -216,6 +238,17 @@ const MainLayout = () => {
             background: colorBgContainer,
           }}
         >
+          <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="light"
+          />
           <Outlet />
         </Content>
       </Layout>

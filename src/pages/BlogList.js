@@ -1,42 +1,96 @@
-import React from "react";
+import React, { useState } from "react";
 import { Table } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { deleteABlog, getBlogs, resetState } from "../features/blog/blogSlice";
+import { Link } from "react-router-dom";
+import { BiEdit } from "react-icons/bi";
+import { AiFillDelete } from "react-icons/ai";
+import CustomModal from "../components/CustomModal";
 
 const columns = [
   {
-    title: "Mã đơn",
+    title: "STT",
     dataIndex: "key",
   },
   {
-    title: "Tên",
+    title: "Tiêu đề",
     dataIndex: "name",
   },
   {
-    title: "Sản phẩm",
-    dataIndex: "address",
+    title: "Category",
+    dataIndex: "category",
   },
   {
-    title: "Trạng thái",
-    dataIndex: "status",
+    title: "Hành động",
+    dataIndex: "action",
   },
 ];
 
-const data1 = [];
-for (let i = 0; i < 46; i++) {
-  data1.push({
-    key: i,
-    name: `Edward King ${i}`,
-    product: 32,
-    status: `London, Park Lane no. ${i}`,
-  });
-}
-
 const BlogList = () => {
+  const [open, setOpen] = useState(false);
+  const [blogId, setBlogId] = useState("");
+  const showModal = (e) => {
+    setOpen(true);
+    setBlogId(e);
+  };
+
+  const hideModal = () => {
+    setOpen(false);
+  };
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(resetState());
+    dispatch(getBlogs());
+  }, []);
+  const blogState = useSelector((state) => state.blog.blogs);
+  const data1 = [];
+  for (let i = 0; i < blogState?.length; i++) {
+    data1.push({
+      key: i + 1,
+      name: blogState[i].title,
+      category: blogState[i].category,
+      action: (
+        <>
+          <Link
+            to={`/admin/blog/${blogState[i]._id}`}
+            className="fs-3 text-danger"
+          >
+            <BiEdit />
+          </Link>
+          <button
+            className="ms-3 fs-3 text-danger bg-transparent border-0"
+            onClick={() => showModal(blogState[i]._id)}
+          >
+            <AiFillDelete />
+          </button>
+        </>
+      ),
+    });
+  }
+
+  const deleteBlog = (e) => {
+    dispatch(deleteABlog(e));
+    setOpen(false);
+    setTimeout(() => {
+      dispatch(getBlogs());
+    }, 100);
+  };
+
   return (
     <div>
       <h3 className="mb-4 title">Danh sách tin tức</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
+      <CustomModal
+        hideModal={hideModal}
+        open={open}
+        performAction={() => {
+          deleteBlog(blogId);
+        }}
+        title="Are you sure you want to delete this blog?"
+      />
     </div>
   );
 };
