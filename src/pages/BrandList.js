@@ -89,7 +89,7 @@ const BrandList = () => {
         performAction={() => {
           deleteABrand(brandId);
         }}
-        title="Are you sure you want to delete this brand?"
+        title="Bạn có chắc chắn rằng bạn muốn xóa thương hiệu này?"
       />
     </div>
   );

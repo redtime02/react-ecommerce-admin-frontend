@@ -81,7 +81,7 @@ const AddBlogCategory = () => {
         <form action="" onSubmit={formik.handleSubmit}>
           <CustomInput
             type="text"
-            label="Nhập danh mục tin tức"
+            label="Tên danh mục"
             name="title"
             onCh={formik.handleChange("title")}
             onBlr={formik.handleBlur("title")}

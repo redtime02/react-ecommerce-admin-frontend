@@ -92,7 +92,7 @@ const CategoryList = () => {
         performAction={() => {
           deleteBlogCategory(blogCatId);
         }}
-        title="Are you sure you want to delete this blog category?"
+        title="Bạn có chắc chắn rằng bạn muốn xóa danh mục này?"
       />
     </div>
   );

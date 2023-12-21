@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { getBrands, resetState } from "../features/brand/brandSlice";
 import { getProductCategories } from "../features/productCategory/productCategorySlice";
 import { Select } from "antd";
@@ -14,7 +14,11 @@ import { getColors } from "../features/color/colorSlice";
 import "react-widgets/styles.css";
 import Dropzone from "react-dropzone";
 import { deleteImg, uploadImg } from "../features/upload/uploadSlice";
-import { createProducts } from "../features/product/productSlice";
+import {
+  createProducts,
+  getAProduct,
+  updateAProduct,
+} from "../features/product/productSlice";
 
 let schema = Yup.object().shape({
   title: Yup.string().required("Title is Required"),
@@ -32,6 +36,8 @@ let schema = Yup.object().shape({
 const AddProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const getProductId = location.pathname.split("/")[3];
   const [color, setColor] = useState([]);
   const [images, setImages] = useState([]);
   useEffect(() => {
@@ -52,7 +58,35 @@ const AddProduct = () => {
   }
   const imgState = useSelector((state) => state.upload.images);
   const newProduct = useSelector((state) => state.product);
-  const { isSuccess, isError, isLoading, createdProduct } = newProduct;
+  const {
+    isSuccess,
+    isError,
+    isLoading,
+    createdProduct,
+    productName,
+    // productDesc,
+    productPrice,
+    productBrand,
+    productTag,
+    productCat,
+    productColor,
+    productQ,
+    updatedProduct,
+    // productImg,
+  } = newProduct;
+
+  useEffect(() => {
+    if (getProductId !== undefined) {
+      dispatch(getAProduct(getProductId));
+      // img.push(productImg);
+    }
+    if (isSuccess && updatedProduct) {
+      toast.success("Cập nhật sản phẩm thành công!");
+      navigate("/admin/product-list");
+    } else {
+      dispatch(resetState());
+    }
+  }, []);
 
   useEffect(() => {
     if (isSuccess && createdProduct) {
@@ -85,26 +119,35 @@ const AddProduct = () => {
   }, [color, img]);
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      title: "",
+      title: productName || "",
       description: "",
-      price: "",
-      brand: "",
-      category: "",
-      tags: "",
-      color: "",
-      quantity: "",
+      price: productPrice || "",
+      brand: productBrand || "",
+      category: productCat || "",
+      tags: productTag || "",
+      color: productColor || "",
+      quantity: productQ || "",
       images: "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(createProducts(values));
-      formik.resetForm();
-      setColor(null);
-      setTimeout(() => {
-        dispatch(resetState());
+      if (getProductId !== undefined) {
+        const data = { id: getProductId, productData: values };
+        dispatch(updateAProduct(data));
+        toast.success("Cập nhật sản phẩm thành công!");
         navigate("/admin/product-list");
-      }, 3000);
+        dispatch(resetState());
+      } else {
+        dispatch(createProducts(values));
+        formik.resetForm();
+        setColor(null);
+        setTimeout(() => {
+          dispatch(resetState());
+          navigate("/admin/product-list");
+        }, 3000);
+      }
     },
   });
   const [desc, setDesc] = useState();
@@ -117,7 +160,9 @@ const AddProduct = () => {
   };
   return (
     <div>
-      <h3 className="mb-4 title">Thêm sản phẩm</h3>
+      <h3 className="mb-4 title">
+        {getProductId !== undefined ? "Cập nhật" : "Thêm"} sản phẩm
+      </h3>
       <div>
         <form
           onSubmit={formik.handleSubmit}
@@ -154,7 +199,7 @@ const AddProduct = () => {
           </div>
           <CustomInput
             text="text"
-            label="Nhập tên sản phẩm"
+            label="Tên sản phẩm"
             name="title"
             onCh={formik.handleChange("title")}
             onBlr={formik.handleBlur("title")}
@@ -164,6 +209,9 @@ const AddProduct = () => {
             {formik.touched.title && formik.errors.title}
           </div>
           <div className="">
+            <label className="mb-3" htmlFor="">
+              Mô tả
+            </label>
             <ReactQuill
               theme="snow"
               name="description"
@@ -176,7 +224,7 @@ const AddProduct = () => {
           </div>
           <CustomInput
             text="number"
-            label="Nhập đơn giá"
+            label="Đơn giá"
             name="price"
             onCh={formik.handleChange("price")}
             onBlr={formik.handleBlur("price")}
@@ -193,7 +241,7 @@ const AddProduct = () => {
             className="form-control py-3 mb-3"
             id=""
           >
-            <option value="">Chọn thương hiệu</option>
+            <option value="">Thương hiệu</option>
             {brandState.map((i, j) => {
               return (
                 <option key={j} value={i.title}>
@@ -213,7 +261,7 @@ const AddProduct = () => {
             className="form-control py-3 mb-3"
             id=""
           >
-            <option value="">Chọn danh mục</option>
+            <option value="">Danh mục</option>
             {catState.map((i, j) => {
               return (
                 <option key={j} value={i.title}>
@@ -235,7 +283,7 @@ const AddProduct = () => {
             id=""
           >
             <option value="" disabled>
-              Chọn nhãn
+              Loại
             </option>
             <option value="featured">Featured</option>
             <option value="popular">Popular</option>
@@ -249,17 +297,20 @@ const AddProduct = () => {
             mode="multiple"
             allowClear
             className="w-100"
-            placeholder="Chọn màu"
+            placeholder="Màu sắc"
             defaultValue={color}
             onChange={(i) => handleColors(i)}
             options={colorOpt}
+            name="color"
+            onBlur={formik.handleBlur("color")}
+            value={formik.values.color}
           />
           <div className="error">
             {formik.touched.color && formik.errors.color}
           </div>
           <CustomInput
             text="number"
-            label="Nhập số lượng"
+            label="Số lượng"
             name="quantity"
             onCh={formik.handleChange("quantity")}
             onBlr={formik.handleBlur("quantity")}
@@ -272,7 +323,7 @@ const AddProduct = () => {
             type="submit"
             className="btn btn-success border-0 rounded-3 my-5"
           >
-            Thêm
+            {getProductId !== undefined ? "Lưu" : "Thêm"}
           </button>
         </form>
       </div>

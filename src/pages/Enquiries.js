@@ -129,7 +129,7 @@ const Enquiries = () => {
         performAction={() => {
           deleteEnq(enqId);
         }}
-        title="Are you sure you want to delete this color?"
+        title="Bạn có chắc chắn rằng bạn muốn xóa phản hồi này?"
       />
     </div>
   );

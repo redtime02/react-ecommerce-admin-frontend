@@ -14,6 +14,7 @@ import {
   AiOutlinePicLeft,
   AiOutlinePicRight,
 } from "react-icons/ai";
+import { CiLogout } from "react-icons/ci";
 import { RiCouponLine } from "react-icons/ri";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -51,6 +52,8 @@ const MainLayout = () => {
           defaultSelectedKeys={[""]}
           onClick={({ key }) => {
             if (key === "signout") {
+              localStorage.clear();
+              window.location.reload();
             } else {
               navigate(key);
             }
@@ -84,7 +87,7 @@ const MainLayout = () => {
                 {
                   key: "brand",
                   icon: <SiBrandfolder className="fs-4" />,
-                  label: "Thương hiệu",
+                  label: "Thêm thương hiệu",
                 },
                 {
                   key: "brand-list",
@@ -94,7 +97,7 @@ const MainLayout = () => {
                 {
                   key: "category",
                   icon: <BiCategoryAlt className="fs-4" />,
-                  label: "Danh mục",
+                  label: "Thêm danh mục",
                 },
                 {
                   key: "category-list",
@@ -104,7 +107,7 @@ const MainLayout = () => {
                 {
                   key: "color",
                   icon: <AiOutlineBgColors className="fs-4" />,
-                  label: "Màu sắc",
+                  label: "Thêm màu sắc",
                 },
                 {
                   key: "color-list",
@@ -166,6 +169,11 @@ const MainLayout = () => {
               key: "enquiries",
               icon: <GoCodeReview className="fs-4" />,
               label: "Phản hồi",
+            },
+            {
+              key: "signout",
+              icon: <CiLogout className="fs-4" />,
+              label: "Đăng xuất",
             },
           ]}
         />

@@ -124,10 +124,39 @@ const AddBlog = () => {
 
       <div className="">
         <form action="" onSubmit={formik.handleSubmit}>
+          <div className="bg-white border-1 p-5 text-center mt-3">
+            <Dropzone
+              onDrop={(acceptedFiles) => dispatch(uploadImg(acceptedFiles))}
+            >
+              {({ getRootProps, getInputProps }) => (
+                <section>
+                  <div {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    <p>Thêm hình</p>
+                  </div>
+                </section>
+              )}
+            </Dropzone>
+          </div>
+          <div className="show-images d-flex flex-wrap gap-3 mt-3">
+            {imgState?.map((i, j) => {
+              return (
+                <div className="position-relative" key={j}>
+                  <button
+                    type="button"
+                    onClick={() => dispatch(deleteImg(i.public_id))}
+                    className="btn-close position-absolute"
+                    style={{ top: "10px", right: "10px" }}
+                  ></button>
+                  <img src={i.url} alt="" width={200} height={200} />
+                </div>
+              );
+            })}
+          </div>
           <div className="mt-4">
             <CustomInput
               text="text"
-              label="Nhập tên sản phẩm"
+              label="Tiêu đề"
               name="title"
               onCh={formik.handleChange("title")}
               onBlr={formik.handleBlur("title")}
@@ -157,6 +186,9 @@ const AddBlog = () => {
           <div className="error">
             {formik.touched.category && formik.errors.category}
           </div>
+          <label className="" htmlFor="">
+            Nội dung
+          </label>
           <ReactQuill
             theme="snow"
             className="mt-3"
@@ -167,37 +199,7 @@ const AddBlog = () => {
           <div className="error">
             {formik.touched.description && formik.errors.description}
           </div>
-          <div className="bg-white border-1 p-5 text-center mt-3">
-            <Dropzone
-              onDrop={(acceptedFiles) => dispatch(uploadImg(acceptedFiles))}
-            >
-              {({ getRootProps, getInputProps }) => (
-                <section>
-                  <div {...getRootProps()}>
-                    <input {...getInputProps()} />
-                    <p>
-                      Drag 'n' drop some files here, or click to select files
-                    </p>
-                  </div>
-                </section>
-              )}
-            </Dropzone>
-          </div>
-          <div className="show-images d-flex flex-wrap gap-3 mt-3">
-            {imgState?.map((i, j) => {
-              return (
-                <div className="position-relative" key={j}>
-                  <button
-                    type="button"
-                    onClick={() => dispatch(deleteImg(i.public_id))}
-                    className="btn-close position-absolute"
-                    style={{ top: "10px", right: "10px" }}
-                  ></button>
-                  <img src={i.url} alt="" width={200} height={200} />
-                </div>
-              );
-            })}
-          </div>
+
           <button
             type="submit"
             className="btn btn-success border-0 rounded-3 my-5"

@@ -84,7 +84,7 @@ const AddColor = () => {
         <form action="" onSubmit={formik.handleSubmit}>
           <CustomInput
             type="color"
-            label="Nhập màu sắc"
+            label="Chọn màu sắc"
             name="title"
             onCh={formik.handleChange("title")}
             onBlr={formik.handleBlur("title")}

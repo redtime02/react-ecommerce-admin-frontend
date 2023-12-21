@@ -89,7 +89,7 @@ const BlogList = () => {
         performAction={() => {
           deleteBlog(blogId);
         }}
-        title="Are you sure you want to delete this blog?"
+        title="Bạn có chắc chắn rằng bạn muốn xóa tin này?"
       />
     </div>
   );

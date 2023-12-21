@@ -34,7 +34,7 @@ const AddBrand = () => {
       dispatch(getBrand(getBrandId));
       // formik.values.title = brandName;
     } else {
-      dispatch(resetState);
+      dispatch(resetState());
     }
   }, [getBrandId]);
   const navigate = useNavigate();
@@ -82,7 +82,7 @@ const AddBrand = () => {
         <form action="" onSubmit={formik.handleSubmit}>
           <CustomInput
             type="text"
-            label="Nhập thương hiệu"
+            label="Tên thương hiệu"
             name="title"
             onCh={formik.handleChange("title")}
             onBlr={formik.handleBlur("title")}
